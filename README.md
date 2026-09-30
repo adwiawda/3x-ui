@@ -20,7 +20,8 @@
 
 برای دریافت آخرین آموزش‌ها، کانفیگ‌ها و به‌روزرسانی‌ها به کانال‌های ما بپوندید:
 
-* 📢 **کانال تلگرام:** <img src="https://img.shields.io/badge/Telegram-MEOV2RAY-26A5E4?style=for-the-badge&logo=telegram&logoColor=white" alt="Telegram Channel" />
+* 📢 **کانال تلگرام:** <a href="https://t.me/meov2ray">
+    <img src="https://img.shields.io/badge/Telegram-MEOV2RAY-26A5E4?style=for-the-badge&logo=telegram&logoColor=white" alt="Telegram Channel" />
 * 🎥 **کانال یوتیوب:** [meov2ray@](https://youtube.com/@meov2ray)
 
 ---

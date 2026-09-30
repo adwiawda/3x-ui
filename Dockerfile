@@ -1,7 +1,26 @@
-FROM ghcr.io/mhsanaei/3x-ui:latest
+FROM alpine:3.19
 
-# اکسپوز کردن پورت وب‌پنل (2053) و پورت ساب‌سرور (2096)
-EXPOSE 2053
-EXPOSE 2096
+RUN apk add --no-cache \
+    curl \
+    bash \
+    ca-certificates \
+    socat \
+    tzdata \
+    sqlite \
+    nginx \
+    gettext \
+    && ln -sf /usr/share/zoneinfo/Asia/Tehran /etc/localtime
 
-CMD ["/app/x-ui"]
+# دانلود و نصب آخرین نسخه 3x-ui
+RUN curl -L https://github.com/mhsanaei/3x-ui/releases/download/v2.5.8/x-ui-linux-amd64.tar.gz -o /tmp/x-ui.tar.gz \
+    && tar -xzf /tmp/x-ui.tar.gz -C /usr/local/ \
+    && rm /tmp/x-ui.tar.gz \
+    && chmod +x /usr/local/x-ui/x-ui
+
+RUN mkdir -p /etc/x-ui /var/log/x-ui
+
+COPY nginx.conf.template /etc/nginx/nginx.conf.template
+COPY start.sh /start.sh
+RUN chmod +x /start.sh
+
+CMD ["/start.sh"]

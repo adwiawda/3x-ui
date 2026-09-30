@@ -22,7 +22,8 @@
 
 * 📢 **کانال تلگرام:** <a href="https://t.me/meov2ray">
     <img src="https://img.shields.io/badge/Telegram-MEOV2RAY-26A5E4?style=for-the-badge&logo=telegram&logoColor=white" alt="Telegram Channel" />
-* 🎥 **کانال یوتیوب:** [meov2ray@](https://youtube.com/@meov2ray)
+* 🎥 **کانال یوتیوب:**  <a href="https://youtube.com/@meov2ray">
+    <img src="https://img.shields.io/badge/YouTube-MEOV2RAY-FF0000?style=for-the-badge&logo=youtube&logoColor=white" alt="YouTube Channel" />
 
 ---
 

@@ -23,11 +23,12 @@ RUN curl -L "https://github.com/mhsanaei/3x-ui/releases/download/${XUI_VERSION}/
 
 RUN mkdir -p /etc/x-ui /var/log/x-ui /usr/share/nginx/html
 
-# کپی کانفیگ Nginx و قالب متحرک sub.html به مسیر Nginx
+# کپی فایل‌های Nginx و صفحه ساب
 COPY nginx.conf.template /etc/nginx/nginx.conf.template
 COPY sub.html /usr/share/nginx/html/sub.html
 
 EXPOSE 2053
 EXPOSE 2096
 
+# اجرای درست هر دو سرویس
 CMD ["sh", "-c", "export PORT=${PORT:-8080} && envsubst '${PORT}' < /etc/nginx/nginx.conf.template > /etc/nginx/nginx.conf && nginx && cd /usr/local/x-ui && ./x-ui"]

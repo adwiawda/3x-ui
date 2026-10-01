@@ -1,5 +1,6 @@
 FROM alpine:3.19
 
+# تنظیم نسخه دقیق بر روی v3.8.5
 ARG XUI_VERSION=v3.8.5
 ARG ARCH=amd64
 
@@ -11,18 +12,26 @@ RUN apk add --no-cache \
     sqlite \
     && ln -sf /usr/share/zoneinfo/Asia/Tehran /etc/localtime
 
-# دانلود و استخراج پنل 3x-ui
+# دانلود و استخراج نسخه v3.8.5 پنل
 RUN curl -fSL "https://github.com/mhsanaei/3x-ui/releases/download/${XUI_VERSION}/x-ui-linux-${ARCH}.tar.gz" -o /tmp/x-ui.tar.gz \
     && tar -xzf /tmp/x-ui.tar.gz -C /usr/local/ \
-    && rm /tmp/x-ui.tar.gz \
-    && chmod +x /usr/local/x-ui/x-ui \
+    && rm /tmp/x-ui.tar.gz
+
+# تنظیم مجوز دسترسی اجرا به فایل‌های اصلی و bin
+RUN chmod +x /usr/local/x-ui/x-ui \
     && chmod +x /usr/local/x-ui/x-ui.sh \
-    && chmod +x /usr/local/x-ui/bin/xray-linux-${ARCH}
+    && chmod -R +x /usr/local/x-ui/bin/
 
-RUN mkdir -p /etc/x-ui /var/log/x-ui
+# ایجاد Symlink جهت اطمینان از شناسایی فایل هسته Xray در هر شرایطی
+RUN if [ -f /usr/local/x-ui/bin/xray-linux-amd64 ]; then \
+         ln -sf /usr/local/x-ui/bin/xray-linux-amd64 /usr/local/x-ui/bin/xray; \
+    elif [ -f /usr/local/x-ui/bin/xray ]; then \
+         ln -sf /usr/local/x-ui/bin/xray /usr/local/x-ui/bin/xray-linux-amd64; \
+    fi
 
-# باز کردن پورت 2096 برای Railway
+# تنظیم دقیق پوشه کاری (جلوگیری از خطای no such file or directory)
+WORKDIR /usr/local/x-ui
+
 EXPOSE 2096
 
-# اجرای مستقیم پنل
-CMD ["/usr/local/x-ui/x-ui"]
+CMD ["./x-ui"]

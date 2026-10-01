@@ -8,7 +8,6 @@ http {
     sendfile        on;
     keepalive_timeout  65;
 
-    # تشخیص درخواست‌های مرورگر از نرم‌افزارها
     map $http_user_agent $is_browser {
         default 0;
         "~*Mozilla" 1;
@@ -24,45 +23,31 @@ http {
 
         root /usr/share/nginx/html;
 
-        # مسیر ساب‌اسکریپشن هوشمند
+        # ۱. مدیریت مسیر ساب‌اسکریپشن
         location /sub/ {
-            # اگر پارامتر html=false بود یا درخواست از سمت نرم‌افزار وی‌پن بود، بفرست به پنل اصلی
-            if ($arg_raw = "true") {
-                proxy_pass http://127.0.0.1:2096/sub/;
-                break;
-            }
-
-            # اگر از مرورگر باز شد، فایل HTML متحرک اختصاصی را نشان بده
             if ($is_browser = 1) {
                 rewrite ^/sub/.*$ /sub.html break;
             }
 
-            # در غیر این صورت (کلاینت‌ها و نرم‌افزارها) مستقیم به Sub Server سنایی متصل شوند
-            proxy_pass http://127.0.0.1:2096/sub/;
+            # در Nginx وقتی proxy_pass بدون مسیر (/sub/) نوشته شود، ارور سینتکس برطرف می‌شود
+            proxy_pass http://127.0.0.1:2096;
             proxy_set_header Host $host;
             proxy_set_header X-Real-IP $remote_addr;
             proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
             proxy_set_header X-Forwarded-Proto https;
         }
 
-        # پنل اصلی مدیریت
+        # ۲. مدیریت وب‌پنل اصلی
         location / {
             proxy_pass http://127.0.0.1:2053;
             proxy_set_header Host $host;
             proxy_set_header X-Real-IP $remote_addr;
             proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
             proxy_set_header X-Forwarded-Proto https;
-        }
 
-        # مسیر WebSocket
-        location /ws {
-            proxy_pass http://127.0.0.1:2082;
             proxy_http_version 1.1;
             proxy_set_header Upgrade $http_upgrade;
             proxy_set_header Connection "upgrade";
-            proxy_set_header Host $host;
-            proxy_set_header X-Real-IP $remote_addr;
-            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
         }
     }
 }

@@ -1,6 +1,6 @@
 FROM alpine:3.19
 
-ARG XUI_VERSION=v2.4.8
+ARG XUI_VERSION=v3.8.5
 ARG ARCH=amd64
 
 RUN apk add --no-cache \

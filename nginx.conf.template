@@ -8,12 +8,36 @@ http {
     sendfile        on;
     keepalive_timeout  65;
 
+    # تشخیص درخواست‌های مرورگر از نرم‌افزارها
+    map $http_user_agent $is_browser {
+        default 0;
+        "~*Mozilla" 1;
+        "~*Chrome" 1;
+        "~*Safari" 1;
+        "~*Firefox" 1;
+        "~*Edge" 1;
+    }
+
     server {
         listen ${PORT};
         server_name _;
 
-        # هدایت ترافیک ساب‌اسکریپشن به پورت 2096
+        root /usr/share/nginx/html;
+
+        # مسیر ساب‌اسکریپشن هوشمند
         location /sub/ {
+            # اگر پارامتر html=false بود یا درخواست از سمت نرم‌افزار وی‌پن بود، بفرست به پنل اصلی
+            if ($arg_raw = "true") {
+                proxy_pass http://127.0.0.1:2096/sub/;
+                break;
+            }
+
+            # اگر از مرورگر باز شد، فایل HTML متحرک اختصاصی را نشان بده
+            if ($is_browser = 1) {
+                rewrite ^/sub/.*$ /sub.html break;
+            }
+
+            # در غیر این صورت (کلاینت‌ها و نرم‌افزارها) مستقیم به Sub Server سنایی متصل شوند
             proxy_pass http://127.0.0.1:2096/sub/;
             proxy_set_header Host $host;
             proxy_set_header X-Real-IP $remote_addr;
@@ -21,7 +45,7 @@ http {
             proxy_set_header X-Forwarded-Proto https;
         }
 
-        # هدایت ترافیک وب‌پنل به پورت 2053
+        # پنل اصلی مدیریت
         location / {
             proxy_pass http://127.0.0.1:2053;
             proxy_set_header Host $host;
@@ -30,7 +54,7 @@ http {
             proxy_set_header X-Forwarded-Proto https;
         }
 
-        # مسیر اتصال کانفیگ‌های WebSocket
+        # مسیر WebSocket
         location /ws {
             proxy_pass http://127.0.0.1:2082;
             proxy_http_version 1.1;

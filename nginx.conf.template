@@ -12,7 +12,7 @@ http {
         listen ${PORT};
         server_name _;
 
-        # هدایت تمام درخواست‌های مربوط به ساب‌‌اسکریپشن به پورت 2096
+        # هدایت ترافیک ساب‌اسکریپشن به پورت 2096
         location /sub/ {
             proxy_pass http://127.0.0.1:2096/sub/;
             proxy_set_header Host $host;
@@ -21,7 +21,7 @@ http {
             proxy_set_header X-Forwarded-Proto https;
         }
 
-        # هدایت درخواست‌های عمومی و وب‌پنل به پورت 2053
+        # هدایت ترافیک وب‌پنل به پورت 2053
         location / {
             proxy_pass http://127.0.0.1:2053;
             proxy_set_header Host $host;
@@ -30,7 +30,7 @@ http {
             proxy_set_header X-Forwarded-Proto https;
         }
 
-        # هدایت اتصال‌های کانفیگ WebSocket (مثل /ws)
+        # مسیر اتصال کانفیگ‌های WebSocket
         location /ws {
             proxy_pass http://127.0.0.1:2082;
             proxy_http_version 1.1;

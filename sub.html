@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MEOV2RAY | Subscription Service</title>
+    <title>MEOV2RAY | VIP Subscription</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
         * {
@@ -18,13 +18,13 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            background: #0f0c20;
+            background: #0d0b1d;
             overflow: hidden;
             position: relative;
             color: #fff;
         }
 
-        /* پس‌زمینه متحرک نئونی */
+        /* پس‌زمینه متحرک فرکانسی */
         .background-blobs {
             position: absolute;
             width: 100%;
@@ -42,16 +42,16 @@
         }
 
         .blob-1 {
-            width: 300px;
-            height: 300px;
+            width: 320px;
+            height: 320px;
             background: #7928ca;
             top: 10%;
             left: 15%;
         }
 
         .blob-2 {
-            width: 350px;
-            height: 350px;
+            width: 360px;
+            height: 360px;
             background: #ff0080;
             bottom: 10%;
             right: 15%;
@@ -59,8 +59,8 @@
         }
 
         .blob-3 {
-            width: 250px;
-            height: 250px;
+            width: 280px;
+            height: 280px;
             background: #00dfd8;
             top: 40%;
             left: 50%;
@@ -85,7 +85,7 @@
             border: 1px solid rgba(255, 255, 255, 0.15);
             border-radius: 24px;
             padding: 32px 24px;
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
             text-align: center;
         }
 
@@ -169,7 +169,7 @@
             bottom: 20px;
             left: 50%;
             transform: translateX(-50%) translateY(100px);
-            background: rgba(0, 223, 216, 0.9);
+            background: rgba(0, 223, 216, 0.95);
             color: #000;
             padding: 10px 24px;
             border-radius: 30px;
@@ -197,7 +197,7 @@
             <i class="fa-solid fa-bolt"></i>
         </div>
         <h1>MEOV2RAY VIP SUB</h1>
-        <p>لینک اختصاصی اتصال شما با موفقیت آماده شد</p>
+        <p>لینک اشتراک شما با موفقیت دریافت شد</p>
 
         <button class="btn btn-copy" onclick="copySubLink()">
             <i class="fa-regular fa-copy"></i>
@@ -210,7 +210,7 @@
         </a>
     </div>
 
-    <div id="toast" class="toast">لینک ساب اسکریپشن کپی شد! ✨</div>
+    <div id="toast" class="toast">لینک ساب کپی شد! ✨</div>
 
     <script>
         function copySubLink() {

@@ -23,12 +23,11 @@ RUN curl -L "https://github.com/mhsanaei/3x-ui/releases/download/${XUI_VERSION}/
 
 RUN mkdir -p /etc/x-ui /var/log/x-ui /usr/share/nginx/html
 
-# کپی فایل‌های Nginx و صفحه ساب
 COPY nginx.conf.template /etc/nginx/nginx.conf.template
 COPY sub.html /usr/share/nginx/html/sub.html
 
 EXPOSE 2053
 EXPOSE 2096
 
-# اجرای درست هر دو سرویس
-CMD ["sh", "-c", "export PORT=${PORT:-8080} && envsubst '${PORT}' < /etc/nginx/nginx.conf.template > /etc/nginx/nginx.conf && nginx && cd /usr/local/x-ui && ./x-ui"]
+# حذف دیتابیس معیوب قبلی هنگام استارت‌آپ جهت رفع تداخل پورت 443
+CMD ["sh", "-c", "rm -f /etc/x-ui/x-ui.db /usr/local/x-ui/bin/config.json && export PORT=${PORT:-8080} && envsubst '${PORT}' < /etc/nginx/nginx.conf.template > /etc/nginx/nginx.conf && nginx && cd /usr/local/x-ui && ./x-ui"]

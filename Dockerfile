@@ -1,6 +1,6 @@
 FROM alpine:3.19
 
-# نسخه سنایی دلخواه (قابل تغییر در Variables یا هنگام بیلد)
+# تعیین نسخه دلخواه سنایی (قابل تغییر در Railway Variables)
 ARG XUI_VERSION=v2.5.8
 ARG ARCH=amd64
 
@@ -15,7 +15,7 @@ RUN apk add --no-cache \
     gettext \
     && ln -sf /usr/share/zoneinfo/Asia/Tehran /etc/localtime
 
-# دانلود نسخه سنایی مشخص شده
+# دانلود سورس رسمی سنایی مستقیم از Releases گیت‌هاب
 RUN curl -L "https://github.com/mhsanaei/3x-ui/releases/download/${XUI_VERSION}/x-ui-linux-${ARCH}.tar.gz" -o /tmp/x-ui.tar.gz \
     && tar -xzf /tmp/x-ui.tar.gz -C /usr/local/ \
     && rm /tmp/x-ui.tar.gz \
@@ -25,12 +25,13 @@ RUN curl -L "https://github.com/mhsanaei/3x-ui/releases/download/${XUI_VERSION}/
 
 RUN mkdir -p /etc/x-ui /var/log/x-ui
 
-# کپی تنظیمات Nginx و اسکریپت استارت
+# کپی تنظیمات Nginx، فایل‌های اجرای سیستم و قالب متحرک ساب
 COPY nginx.conf.template /etc/nginx/nginx.conf.template
 COPY start.sh /start.sh
+COPY sub.html /usr/local/x-ui/bin/sub.html
 RUN chmod +x /start.sh
 
-# اکسپوز پورت‌های وب‌پنل (2053) و ساب‌سرور (2096)
+# اکسپوز کردن پورت‌های وب‌سرور و ساب‌سرور
 EXPOSE 2053
 EXPOSE 2096
 

@@ -26,9 +26,10 @@ RUN curl -L "https://github.com/mhsanaei/3x-ui/releases/download/${XUI_VERSION}/
 RUN mkdir -p /etc/x-ui /var/log/x-ui
 
 # کپی تنظیمات Nginx، فایل‌های اجرای سیستم و قالب متحرک ساب
-COPY nginx.conf.template /etc/nginx/nginx.conf.template
-COPY start.sh /start.sh
+# کپی کردن صفحه متحرک در تمامی مسیرهای احتمالی ساب‌اسکریپشن پنل
 COPY sub.html /usr/local/x-ui/bin/sub.html
+COPY sub.html /usr/local/x-ui/sub.html
+COPY sub.html /usr/local/x-ui/bin/html/sub.html
 RUN chmod +x /start.sh
 
 # اکسپوز کردن پورت‌های وب‌سرور و ساب‌سرور

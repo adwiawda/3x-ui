@@ -1,7 +1,7 @@
 FROM alpine:3.19
 
-# تنظیم نسخه دقیق بر روی v3.8.5
-ARG XUI_VERSION=v3.8.5
+# تنظیم نسخه دقیق بر روی v3.9.0
+ARG XUI_VERSION=v3.9.0
 ARG ARCH=amd64
 
 RUN apk add --no-cache \
